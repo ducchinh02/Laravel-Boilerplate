@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\View\Components\Auth\Content;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,5 +27,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Route::pattern('id', '[0-9]+');
+        Blade::component('auth-content', Content::class);
     }
 }

@@ -6,11 +6,11 @@
           <i class="fas fa-bars"></i>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ms-auto py-4 py-lg-0">
+          <ul class="navbar-nav d-flex align-items-center ms-auto py-4 py-lg-0 gap-3">
               <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('blog.home')}}">Home</a></li>
               <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('blog.about')}}">About</a></li>
-              <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#">Sample Post</a></li>
-              <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#">Contact</a></li>
+              <li class="nav-item"><a class="bg-dark nav-link text-white px-3 py-2"  href="{{route('blog.auth.signin')}}">Sign In</a></li>
+              <li class="nav-item"><a class="bg-dark nav-link text-white px-3 py-2"  href="{{route('blog.auth.register')}}">Register</a></li>
           </ul>
       </div>
   </div>

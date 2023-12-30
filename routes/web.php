@@ -58,6 +58,13 @@ Route::prefix('admin')->middleware('auth.admin')->group(function () {
 Route::prefix('blog')->group(function () {
     Route::get('/', [BlogController::class, 'index'])->name('blog.home');
     Route::get('/about', [BlogController::class, 'about'])->name('blog.about');
+
+    Route::prefix('auth')->group(function () {
+        Route::get('/signin', [BlogController::class, 'signin'])->name('blog.auth.signin');
+        Route::get('/register', [BlogController::class, 'register'])->name('blog.auth.register');
+        Route::post('/signin', [BlogController::class, 'handleSignIn']);
+        Route::post('/register', [BlogController::class, 'handleRegister']);
+    });
 });
 
 Route::resource('photos', PhotoController::class);

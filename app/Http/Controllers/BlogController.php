@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\BlogSignInRequest;
 
 class BlogController extends Controller
 {
@@ -25,5 +26,23 @@ class BlogController extends Controller
             'desc' => 'This is what I do.'
         ];
         return view('blog.about', compact('title', 'header'));
+    }
+    public function signIn()
+    {
+        $title = 'Sign In';
+        return view('blog.auth.signin', compact('title'));
+    }
+    public function register()
+    {
+        $title = 'Register';
+        return view('blog.auth.register', compact('title'));
+    }
+    public function handleSignIn(BlogSignInRequest $request)
+    {
+    }
+    public function handleRegister(Request $request)
+    {
+        $title = 'Register';
+        return view('blog.auth.register', compact('title'));
     }
 }
