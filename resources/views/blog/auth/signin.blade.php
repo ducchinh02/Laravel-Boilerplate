@@ -12,7 +12,7 @@
   <div class="container px-md-5 text-center text-lg-start ">
     <div class="row gx-lg-5 align-items-center justify-content-evenly">
       
-     <x-auth-content class="col-lg-6 d-lg-block d-none" />
+     <x-auth.content class="col-lg-6 d-lg-block d-none" />
 
       <div class="col-lg-4  position-relative">
         <div id="radius-shape-1" class="position-absolute rounded-circle shadow-5-strong"></div>

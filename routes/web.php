@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\HomeMiddleware;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -56,14 +57,29 @@ Route::prefix('admin')->middleware('auth.admin')->group(function () {
     })->name('admin.news')->where(['slug' => '.+', 'id' => '[0-9]+']);
 });
 Route::prefix('blog')->group(function () {
+    // VIEWS
     Route::get('/', [BlogController::class, 'index'])->name('blog.home');
     Route::get('/about', [BlogController::class, 'about'])->name('blog.about');
+    Route::get('/add', [BlogController::class, 'add'])->name('blog.actions.add');
+    Route::get('/edit/{slug}-{id}', [BlogController::class, 'edit'])->name('blog.actions.edit')->where(['slug' => '.+', 'id' => '[0-9]+']);
+    Route::get('/detail/{slug}-{id}', [BlogController::class, 'detail'])->name('blog.detail')->where(['slug' => '.+', 'id' => '[0-9]+']);
 
+    // ACTIONS
+    Route::post('/add', [BlogController::class, 'store']);
+    Route::patch('/update', [BlogController::class, 'updatePost'])->name('blog.actions.update');
+    Route::get('/delete/{slug}-{id}', [BlogController::class, 'delete'])->name('blog.actions.delete')->where(['slug' => '.+', 'id' => '[0-9]+']);
+
+    // AUTH
     Route::prefix('auth')->group(function () {
         Route::get('/signin', [BlogController::class, 'signin'])->name('blog.auth.signin');
         Route::get('/register', [BlogController::class, 'register'])->name('blog.auth.register');
         Route::post('/signin', [BlogController::class, 'handleSignIn']);
         Route::post('/register', [BlogController::class, 'handleRegister']);
+    });
+
+    // USERS
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('blog.users.list');
     });
 });
 
