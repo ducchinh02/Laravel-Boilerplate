@@ -22,7 +22,7 @@
   <!-- Message input -->
   <div data-mdb-input-init class="form-outline mb-4">
     <label class="form-label" for="post-content">Content</label>
-    <textarea class="form-control" id="post-content" value="{{old('post_content') ?? $post->content}}" name="post_content" rows="4">{{ $post->content }}</textarea>
+    <textarea class="form-control" id="post-content" value="{{old('post_content') ?? $post->content}}" name="post_content" rows="4">{{old('post_content') ?? $post->content }}</textarea>
     @error('post_content')
       <p class="text-danger my-0" style="font-size: 14px">*{{$message}}</p>
     @enderror
