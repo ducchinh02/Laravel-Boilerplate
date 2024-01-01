@@ -24,9 +24,12 @@ class BlogController extends Controller
             'title' => 'Clean Blog',
             'desc' => 'A Blog Theme by Start Bootstrap'
         ];
-        $posts = $this->POST_MODEL->getAllPosts();
-
-        return view('blog.home', compact('title', 'header', 'posts'));
+        try {
+            $posts = $this->POST_MODEL->getAllPosts();
+            return view('blog.home', compact('title', 'header', 'posts'));
+        } catch (\Throwable $e) {
+            return redirect('/');
+        }
     }
     public function about()
     {
