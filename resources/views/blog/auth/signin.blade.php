@@ -20,6 +20,11 @@
 
         <div class="card bg-glass">
           <div class="card-body px-4 py-5 px-md-5">
+            @if(Session::has('error'))
+              <div class="alert alert-danger">
+                {{ Session::get('error')}}
+              </div>
+            @endif
             <form action="/blog/auth/signin" method="POST">
               @method('POST')
               @csrf

@@ -10,9 +10,14 @@
               <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('blog.home')}}">Home</a></li>
               <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('blog.about')}}">About</a></li>
               <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{route('blog.users.list')}}">Users</a></li>
-              <li class="nav-item"><a class="bg-dark nav-link text-white px-3 py-2"  href="{{route('blog.auth.signin')}}">Sign In</a></li>
-              <li class="nav-item"><a class="bg-dark nav-link text-white px-3 py-2"  href="{{route('blog.auth.register')}}">Register</a></li>
-          </ul>
+                @if(Auth::check())
+                    <li class="bg-white nav-link text-dark px-3 py-2" style="font-size: 14px">{{Auth::user()->name}}</li>
+                    <li class="nav-item"><a class="bg-dark nav-link text-white px-3 py-2"  href="{{route('blog.auth.signout')}}">Sign out</a></li>
+                @else
+                <li class="nav-item"><a class="bg-dark nav-link text-white px-3 py-2"  href="{{route('blog.auth.signin')}}">Sign In</a></li>
+                <li class="nav-item"><a class="bg-dark nav-link text-white px-3 py-2"  href="{{route('blog.auth.register')}}">Register</a></li>
+                @endif
+            </ul>
       </div>
   </div>
 </nav>

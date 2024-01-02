@@ -57,25 +57,30 @@ Route::prefix('admin')->middleware('auth.admin')->group(function () {
     })->name('admin.news')->where(['slug' => '.+', 'id' => '[0-9]+']);
 });
 Route::prefix('blog')->group(function () {
-    // VIEWS
     Route::get('/', [BlogController::class, 'index'])->name('blog.home');
     Route::get('/about', [BlogController::class, 'about'])->name('blog.about');
-    Route::get('/add', [BlogController::class, 'add'])->name('blog.actions.add');
-    Route::get('/edit/{slug}-{id}', [BlogController::class, 'edit'])->name('blog.actions.edit')->where(['slug' => '.+', 'id' => '[0-9]+']);
     Route::get('/detail/{slug}-{id}', [BlogController::class, 'detail'])->name('blog.detail')->where(['slug' => '.+', 'id' => '[0-9]+']);
 
-    // ACTIONS
-    Route::post('/add', [BlogController::class, 'store']);
-    Route::patch('/update', [BlogController::class, 'updatePost'])->name('blog.actions.update');
-    Route::get('/delete/{slug}-{id}', [BlogController::class, 'delete'])->name('blog.actions.delete')->where(['slug' => '.+', 'id' => '[0-9]+']);
+    Route::middleware('blog.auth')->group(function () {
+        // VIEWS
+        Route::get('/add', [BlogController::class, 'add'])->name('blog.actions.add');
+        Route::get('/edit/{slug}-{id}', [BlogController::class, 'edit'])->name('blog.actions.edit')->where(['slug' => '.+', 'id' => '[0-9]+']);
+        // ACTIONS
+        Route::post('/add', [BlogController::class, 'store']);
+        Route::patch('/update', [BlogController::class, 'updatePost'])->name('blog.actions.update');
+        Route::get('/delete/{slug}-{id}', [BlogController::class, 'delete'])->name('blog.actions.delete')->where(['slug' => '.+', 'id' => '[0-9]+']);
+    });
 
     // AUTH
-    Route::prefix('auth')->group(function () {
-        Route::get('/signin', [BlogController::class, 'signin'])->name('blog.auth.signin');
-        Route::get('/register', [BlogController::class, 'register'])->name('blog.auth.register');
-        Route::post('/signin', [BlogController::class, 'handleSignIn']);
-        Route::post('/register', [BlogController::class, 'handleRegister']);
+    Route::middleware('blog.not-auth')->group(function () {
+        Route::prefix('auth')->group(function () {
+            Route::get('/signin', [BlogController::class, 'signin'])->name('blog.auth.signin');
+            Route::get('/register', [BlogController::class, 'register'])->name('blog.auth.register');
+            Route::post('/signin', [BlogController::class, 'handleSignIn']);
+            Route::post('/register', [BlogController::class, 'handleRegister']);
+        });
     });
+    Route::get('/signout', [BlogController::class, 'handleSignOut'])->name('blog.auth.signout');
 
     // USERS
     Route::prefix('users')->group(function () {

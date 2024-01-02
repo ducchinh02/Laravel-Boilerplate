@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BlogSignInRequest;
 use Illuminate\Support\Facades\DB;
 use App\Models\Posts;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class BlogController extends Controller
@@ -20,7 +23,7 @@ class BlogController extends Controller
     {
         $title = 'Home';
         $header = [
-            'imageUrl' => 'https://startbootstrap.github.io/startbootstrap-clean-blog/assets/img/home-bg.jpg',
+            'imageUrl' => 'https://uicookies.com/demo/theme/technews/assets/img/cat-mobi-left-1.jpg',
             'title' => 'Clean Blog',
             'desc' => 'A Blog Theme by Start Bootstrap'
         ];
@@ -35,7 +38,7 @@ class BlogController extends Controller
     {
         $title = 'About';
         $header = [
-            'imageUrl' => 'https://startbootstrap.github.io/startbootstrap-clean-blog/assets/img/about-bg.jpg',
+            'imageUrl' => 'https://uicookies.com/demo/theme/technews/assets/img/category_img_top.jpg',
             'title' => 'About Me',
             'desc' => 'This is what I do.'
         ];
@@ -49,9 +52,9 @@ class BlogController extends Controller
         );
         $title = $posts->title;
         $header = [
-            'imageUrl' => 'https://startbootstrap.github.io/startbootstrap-clean-blog/assets/img/about-bg.jpg',
+            'imageUrl' => 'https://uicookies.com/demo/theme/technews/assets/img/feature-top.jpg',
             'title' =>  $title,
-            'desc' => $posts->author
+            'desc' => 'Posted by ' . $posts->author
         ];
         return view('blog.detail', compact('title', 'header', 'posts'));
     }
@@ -138,10 +141,25 @@ class BlogController extends Controller
     }
     public function handleSignIn(BlogSignInRequest $request)
     {
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route('blog.home');
+        } else {
+            return back()->with('error', 'Login error!');
+        }
     }
-    public function handleRegister(Request $request)
+    public function handleRegister(BlogSignInRequest $request)
     {
-        $title = 'Register';
-        return view('blog.auth.register', compact('title'));
+        try {
+            $request->merge(['password' => Hash::make($request->password)]);
+            User::create($request->all());
+            return redirect()->route('blog.auth.signin');
+        } catch (\Throwable $th) {
+            dd($th);
+        }
+    }
+    public function handleSignOut()
+    {
+        Auth::logout();
+        return redirect()->route('blog.home');
     }
 }

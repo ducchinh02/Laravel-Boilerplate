@@ -21,9 +21,11 @@
                   <a href="#!">{{$item->author}}</a>
                   on {{$item->created_at}}
               </p>
-              <a href="{{route('blog.actions.edit',['slug'=>$item->slug,'id'=>$item->id])}}" class="btn btn-warning py-2 px-3">Edit post →</a>
-              <a onclick="return confirm('Are you sure you want to delete : {{$item->title}}?')" href="{{route('blog.actions.delete',['slug'=>$item->slug,'id'=>$item->id])}}" class="btn btn-danger text-white py-2 px-3">Delete post →</a>
-          </div>
+              @auth
+                <a href="{{route('blog.actions.edit',['slug'=>$item->slug,'id'=>$item->id])}}" class="btn btn-warning py-2 px-3">Edit post →</a>
+                <a onclick="return confirm('Are you sure you want to delete : {{$item->title}}?')" href="{{route('blog.actions.delete',['slug'=>$item->slug,'id'=>$item->id])}}" class="btn btn-danger text-white py-2 px-3">Delete post →</a>
+              @endauth
+            </div>
           <!-- Divider-->
           <hr class="my-4" />
           @empty

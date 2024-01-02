@@ -19,33 +19,39 @@
 
         <div class="card bg-glass">
           <div class="card-body px-4 py-5 px-md-5">
-            <form>
+            <form action="/blog/auth/register" method="POST">
+              @method('POST')
+              @csrf
               <!-- 2 column grid layout with text inputs for the first and last names -->
               <div class="row">
                 <div class="col-md-6 mb-4">
                   <div class="form-outline">
-                    <label class="form-label" for="form3Example1">First name</label>
-                    <input type="text" id="form3Example1" class="form-control" />
+                    <label class="form-label" for="name">Your name</label>
+                    <input type="text" id="name" name="name" class="form-control" value="{{old('name')}}" />
+                    @error('name')
+                    <p class="text-danger">*{{$message}}</p>
+                    @enderror
                   </div>
                 </div>
+              <!-- Email input -->
                 <div class="col-md-6 mb-4">
                   <div class="form-outline">
-                    <label class="form-label" for="form3Example2">Last name</label>
-                    <input type="text" id="form3Example2" class="form-control" />
+                    <label class="form-label" for="email">Email address</label>
+                    <input type="email" id="email" name="email" class="form-control" value="{{old('email')}}" />
+                  @error('email')
+                    <p class="text-danger">*{{$message}}</p>
+                  @enderror
                   </div>
                 </div>
-              </div>
-
-              <!-- Email input -->
-              <div class="form-outline mb-4">
-                <label class="form-label" for="form3Example3">Email address</label>
-                <input type="email" id="form3Example3" class="form-control" />
               </div>
 
               <!-- Password input -->
               <div class="form-outline mb-4">
-                <label class="form-label" for="form3Example4">Password</label>
-                <input type="password" id="form3Example4" class="form-control" />
+                <label class="form-label" for="password">Password</label>
+                <input type="password" id="password" name="password" class="form-control" value="{{old('password')}}" />
+                @error('password')
+                  <p class="text-danger">*{{$message}}</p>
+                @enderror
               </div>
 
               <!-- Checkbox -->
